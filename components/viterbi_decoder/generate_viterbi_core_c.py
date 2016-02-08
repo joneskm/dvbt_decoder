@@ -56,7 +56,7 @@ def _write_header(f):
     
     f.write('''
 /****************************************************************************
-** WARNING: This code was auto-generated with gnerate_viterbi_decoder.py. All
+** WARNING: This code was auto-generated with generate_viterbi_decoder.py. All
 ** changes made to this file will be lost when generate_viterbi_decoder.py is
 ** run.
 ****************************************************************************/
