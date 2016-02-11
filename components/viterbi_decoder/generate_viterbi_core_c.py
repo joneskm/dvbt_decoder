@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from dvbt_constants import NUM_CONV_STATES
+NUM_CONV_STATES = 64
 
 def _convolutional_coder(bits):
     '''
