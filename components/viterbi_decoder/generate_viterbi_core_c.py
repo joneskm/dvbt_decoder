@@ -1,6 +1,8 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import numpy as np
+import os
 NUM_CONV_STATES = 64
 
 def _convolutional_coder(bits):
@@ -260,7 +262,8 @@ if __name__ == '__main__':
 
     expected_measurement, transitions = initialise_arrays()
     
-    filename = 'viterbi_core.c'
+    path = os.path.dirname(os.path.abspath(__file__))
+    filename = path + os.path.sep + 'viterbi_core.c'
     f = open(filename,'w')
     
     _write_header(f)
