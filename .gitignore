@@ -1,7 +1,7 @@
 *.pyc
 .cache
 test_constellations.png
-test_decoder_output.m2ts
+*.m2ts
 test_data.npz
 *.so
 *.c
