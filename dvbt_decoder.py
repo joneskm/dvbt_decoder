@@ -4,7 +4,7 @@
 import numpy as np
 import struct
 import components
-import sys
+import argparse
 
 class DVBTDecoder(object):
     def __init__(self, rate):
@@ -39,9 +39,12 @@ class DVBTDecoder(object):
     
         
 if __name__=='__main__':
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filename", help="name of file containing iq data")
+    args = parser.parse_args()
     
-    iq_data_filename = sys.argv[1]
-    in_file = open(iq_data_filename, 'rb')    
+    in_file = open(args.filename, 'rb')    
     
     dvbt_decoder = DVBTDecoder(rate=(2,3))
     m2ts_byte_string = dvbt_decoder.run(in_file)    
