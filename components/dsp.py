@@ -8,6 +8,7 @@ from __future__ import division
 
 import numpy as np
 from components.dvbt_constants import *
+import logging
 
 def run_dsp(iq_data):
     constellations, num_symbols = get_constellations(iq_data)
@@ -224,34 +225,34 @@ def _extract_data_fields(bit_data):
     '''
     
     tps_lngth = bit_data[16:22]
-    print('TPS Length: ' + str(tps_lngth))
+    logging.info('TPS Length: {}'.format(tps_lngth))
     
     frame_number = bit_data[22:24]
-    print('Frame Number: ' + str(frame_number))
+    logging.info('Frame Number: {}'.format(tps_lngth))
     
     constellation = bit_data[24:26]
-    print('Constellation: ' + str(constellation))
+    logging.info('Constellation: {}'.format(constellation))
     
     hierarchy = bit_data[26:29]
-    print('Hierarchy: ' + str(hierarchy))
+    logging.info('Hierarchy: {}'.format(hierarchy))
     
     code_rate = bit_data[29:32]
-    print('HP Stream Code_rate: ' + str(code_rate))
+    logging.info('HP Stream Code_rate: {}'.format(code_rate))
 
     code_rate = bit_data[32:35]
-    print('LP Stream Code_rate: ' + str(code_rate))
+    logging.info('LP Stream Code_rate: {}'.format(code_rate))
 
     guard_interval = bit_data[35:37]
-    print('Guard Interval: ' + str(guard_interval))
+    logging.info('Guard Interval: {}'.format(guard_interval))
 
     transmission_mode = bit_data[37:39]
-    print('Transmission Mode: ' + str(transmission_mode))
+    logging.info('Transmission Mode: {}'.format(transmission_mode))
 
     cell_identifier = bit_data[39:47]
-    print('Cell Identifier: ' + str(cell_identifier))
+    logging.info('Cell Identifier: {}'.format(cell_identifier))
   
     frame_number_int = 2*frame_number[0] + frame_number[1]
-    print('Frame number int: ' + str(frame_number_int))
+    logging.info('Frame number int: {}'.format(frame_number_int))
     
     return frame_number_int
 

@@ -5,6 +5,7 @@ import numpy as np
 import struct
 import components
 import argparse
+import logging
 
 class DVBTDecoder(object):
     def __init__(self, rate):
@@ -42,8 +43,14 @@ if __name__=='__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument("filename", help="name of file containing iq data")
+    parser.add_argument("--verbose", help="increase output verbosity",
+                        action="store_true")
     args = parser.parse_args()
     
+    if args.verbose:
+        print "Verbosity turned on"
+        logging.basicConfig(level=logging.DEBUG)
+
     in_file = open(args.filename, 'rb')    
     
     dvbt_decoder = DVBTDecoder(rate=(2,3))
