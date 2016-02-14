@@ -4,6 +4,7 @@ Python module for decoding DVB-T transmissions.
 - Numpy
 - Make
 - GCC
+
 ## Installation
 From a terminal execute the following commands:
 ```
