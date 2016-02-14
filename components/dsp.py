@@ -122,11 +122,14 @@ def _pilot_phase_change(carriers_data, num_symbols):
         
         # calculate diff_vecs = r1*r2*e^i(theta2 - theta1)
         diff_vecs = pilot_data[0:-1].conj()*pilot_data[1:] 
+        cumsum_diff_vecs = np.cumsum(diff_vecs)
+        cumsum_diff_vecs = np.insert(cumsum_diff_vecs, 0, 0)
 
-        for kk in range(num_symbols):
-            pilot_delta_phase[kk,k] = np.angle(
-                                      np.sum(diff_vecs[kk:kk+avging_lngth])) 
-                                      #TODO: replace with np.cumsum
+        for kk in range(num_symbols):            
+            sum_diff_vecs = cumsum_diff_vecs[kk+avging_lngth] - \
+                                                         cumsum_diff_vecs[kk]
+            pilot_delta_phase[kk,k] = np.angle(sum_diff_vecs)
+            
     first_symbol = 1+avging_lngth//2
        
     return pilot_delta_phase, num_symbols, first_symbol
@@ -310,7 +313,9 @@ class _CarrierIndcs(object):
         all_data_carriers = [0]*4
     
         for k in range(4):
-            scattered_indcs = set(range(k*3, NUM_CARRIERS, 12)) #TODO: remove magic numbers
+            # location of scattered carriers are defined in 
+            # ETSI EN 300 744 V1.5.1 sec. 4.5.3
+            scattered_indcs = set(range(k*3, NUM_CARRIERS, 12))
             non_data_carriers = scattered_indcs | continual_pilot_carriers \
                                                              | tps_carriers
                                                              
@@ -383,7 +388,7 @@ class _ChannelEstimator(object):
             wk[k] = (wk[k-11] + wk[k-9])%2            
         self.wk = -2*wk + 1
         
-        # calculate scattered pilot indcs as defined in 
+        # calculate all pilot indcs, scattered pilot indcs as defined in 
         # ETSI EN 300 744 V1.5.1 sec. 4.5.3
         all_pilots = [0]*4
         for k in range(4):
@@ -403,7 +408,9 @@ class _ChannelEstimator(object):
         return carrier_data, previous_chan_est*refined_channel_estimate
         
     def sp(self, carrier_data, carrier):
-        pilot_indcs = self.all_pilots[(carrier%12)//3] # TODO: remove magic numbers
+        # location of pilot carriers are defined in 
+        # ETSI EN 300 744 V1.5.1 sec. 4.5.3
+        pilot_indcs = self.all_pilots[(carrier%12)//3]
         
         carrier_data, rotation = self._apply_rotation(carrier_data, 
                                                       pilot_indcs, carrier)
@@ -425,7 +432,7 @@ class _ChannelEstimator(object):
 
     def _pilot_chan_estimator(self, pilots, carrier):
         sum_carrier = self.wk[carrier]*np.sum(pilots)
-        channel_estimate = 7*4/(3*sum_carrier) # TODO: remove magic numbers
+        channel_estimate = PILOT_2_DATA_AMP/(sum_carrier)
         
         return channel_estimate
     
@@ -438,7 +445,7 @@ class _ChannelEstimator(object):
     
         sum_carrier = np.sum(pos) - np.sum(neg)
     
-        return 7*4/(3*sum_carrier) # TODO remove magic numbers
+        return PILOT_2_DATA_AMP/(sum_carrier)
         
     def _apply_rotation(self, carrier_data, pilot_indcs, carrier):
         pilots = carrier_data[pilot_indcs]        
