@@ -10,6 +10,10 @@ path = os.path.dirname(os.path.abspath(__file__))
 test_file = (path + os.path.sep + 'test_data.npz')
 test_data = np.load(test_file)
 
+iq_file = (path + os.path.sep + 'iq_data.npz')
+iq_data_int = np.load(iq_file)['iq_data_int']
+
+
 def test_dvbt_decoder(): 
     file_ = _get_iq_file()
     exp_m2ts_byte_string = test_data['dvbt_decoder_m2ts_byte_string'] 
@@ -40,7 +44,6 @@ def _get_iq_file():
     type
     '''
 
-    iq_data_int = test_data['iq_data_int']
     iq_string = struct.pack('{}h'.format(len(iq_data_int)), *iq_data_int)
     file_ = StringIO.StringIO()
     file_.write(iq_string)

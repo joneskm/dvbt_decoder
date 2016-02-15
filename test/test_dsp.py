@@ -9,11 +9,13 @@ path = os.path.dirname(os.path.abspath(__file__))
 test_file = (path + os.path.sep + 'test_data.npz')
 test_data = np.load(test_file)
 
+iq_file = (path + os.path.sep + 'iq_data.npz')
+iq_data_int = np.load(iq_file)['iq_data_int']
+
 def test_run_dsp():   
     exp_data_carriers = test_data['data_carriers']
     exp_super_frame_start = test_data['super_frame_start']
     
-    iq_data_int = test_data['iq_data_int'] 
     iq_data = iq_data_int[::2] + 1j*iq_data_int[1::2]
     
     data_carriers, super_frame_start = components.run_dsp(iq_data)
@@ -25,7 +27,6 @@ def test_run_dsp():
     
     
 def test_get_constellations():
-    iq_data_int = test_data['iq_data_int'] 
     iq_data = iq_data_int[::2] + 1j*iq_data_int[1::2]
     
     exp_constellations = test_data['constellations']

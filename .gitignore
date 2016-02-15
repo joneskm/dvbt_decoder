@@ -3,5 +3,6 @@
 test_constellations.png
 *.m2ts
 test_data.npz
+iq_data.npz
 *.so
 *.c
