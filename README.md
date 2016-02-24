@@ -1,7 +1,10 @@
 # DVB-T Decoder
 Python module for decoding DVB-T transmissions.
 ## Dependencies
+- Python 2.7
 - Numpy
+- Matplotlib
+- ~3.5GB of free memory
 - Make
 - GCC
 
